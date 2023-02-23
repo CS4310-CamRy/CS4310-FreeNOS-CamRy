@@ -10,8 +10,8 @@
 Wait::Wait(int argc, char **argv)
 	: POSIXApplication(argc, argv)
 {
-	parser().setDescription("wait");
-	parser().registerPositional("PID", "wait");
+	parser().setDescription("waits for a background process to complete");
+	parser().registerPositional("PID", "wait for the process associated with the given PID");
 }
 
 Wait::~Wait()
