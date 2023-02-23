@@ -10,7 +10,7 @@
 Wait::Wait(int argc, char **argv)
 	: POSIXApplication(argc, argv)
 {
-	parser().set Description("wait");
+	parser().setDescription("wait");
 	parser().registerPositional("PID", "wait");
 }
 
@@ -22,15 +22,18 @@ Wait::Result Wait::exec()
 {
 	//get the pid with ProcessClient
 	ProcessClient process;
-	ProcessID pid;
+	ProcessID pid = (atoi(arguments().get("PID"))); //gathers input as PID argument
+	ProcessClient::Info info; 
+	ProcessClient::Result res = process.processInfo(pid,info); //using given pid to gather info on the processs, also allows us to know if the pid is found
 
-	if() {
+	if(res == ProcessClient::Success) { //if the PID is found using the result codes from ProcessClient
 		//call waitpid here
 		//waitpid has 3 parameters: pid, int, int
-		waitpid(pid, 0, 0);
+		waitpid(pid, 0, 0); //according to parameters given from wait.h (PID, Status Location, Optional Flags)
 	}
-	else {
+	else { //prompt user with error
 		//if the pid does not exist, return an error message
+		ERROR("invalid PID`" << arguments().get("PID") << "'");
 		return InvalidArgument;
 	}
 
