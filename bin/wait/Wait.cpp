@@ -23,20 +23,16 @@ Wait::Result Wait::exec()
 	//get the pid with ProcessClient
 	ProcessClient process;
 	ProcessID pid = (atoi(arguments().get("PID"))); //gathers input as PID argument
-	ProcessClient::Info info; 
-	ProcessClient::Result res = process.processInfo(pid,info); //using given pid to gather info on the processs, also allows us to know if the pid is found
-
-	if(res == ProcessClient::Success) { //if the PID is found using the result codes from ProcessClient
-		//call waitpid here
-		//waitpid has 3 parameters: pid, int, int
-		waitpid(pid, 0, 0); //according to parameters given from wait.h (PID, Status Location, Optional Flags)
-	}
-	else { //prompt user with error
-		//if the pid does not exist, return an error message
+	int statloc;
+	//if pid does not run prompt an error, waitpid structure is according to parameters given from wait.h (PID, Status Location, Optional Flags)
+	if(waitpid(pid, &statloc, 0) == -1) { 
 		ERROR("invalid PID`" << arguments().get("PID") << "'");
 		return InvalidArgument;
 	}
+	else { //otherwiser return success
+		return Success; 
+	}
 
-	return Success;
+	
 }
 
