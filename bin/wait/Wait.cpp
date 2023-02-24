@@ -10,8 +10,8 @@
 Wait::Wait(int argc, char **argv)
 	: POSIXApplication(argc, argv)
 {
-	parser().setDescription("waits for a background process to complete");
-	parser().registerPositional("PID", "wait for the process associated with the given PID");
+	parser().setDescription("waits for a background process to complete"); // setting description
+	parser().registerPositional("PID", "wait for the process associated with the given PID"); //description for pid argument
 }
 
 Wait::~Wait()
@@ -20,13 +20,12 @@ Wait::~Wait()
 
 Wait::Result Wait::exec()
 {
-	//get the pid with ProcessClient
 	ProcessClient process;
-	ProcessID pid = (atoi(arguments().get("PID"))); //gathers input as PID argument
-	int statloc;
+	ProcessID pid = (atoi(arguments().get("PID"))); //gathers input after wait as PID argument
+	int statloc; //initialize status location
 	//if pid does not run prompt an error, waitpid structure is according to parameters given from wait.h (PID, Status Location, Optional Flags)
 	if(waitpid(pid, &statloc, 0) == -1) { 
-		ERROR("invalid PID`" << arguments().get("PID") << "'");
+		ERROR("invalid PID`" << arguments().get("PID") << "'"); //gets the pid and prompts an error saying that it is invalid
 		return InvalidArgument;
 	}
 	else { //otherwiser return success
