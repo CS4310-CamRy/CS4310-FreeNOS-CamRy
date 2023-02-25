@@ -20,15 +20,14 @@ Wait::~Wait()
 
 Wait::Result Wait::exec()
 {
-	ProcessClient process;
 	ProcessID pid = (atoi(arguments().get("PID"))); //gathers input after wait as PID argument
 	int statloc; //initialize status location
-	//if pid does not run prompt an error, waitpid structure is according to parameters given from wait.h (PID, Status Location, Optional Flags)
-	if(waitpid(pid, &statloc, 0) == -1) { 
+	//if waitpid does not run prompt an error
+	if(waitpid(pid, &statloc, 0) == -1) { //waitpid structure is according to parameters given from wait.h (PID, Status Location, Optional Flags)
 		ERROR("invalid PID`" << arguments().get("PID") << "'"); //gets the pid and prompts an error saying that it is invalid
 		return InvalidArgument;
 	}
-	else { //otherwiser return success
+	else { //otherwise return success
 		return Success; 
 	}
 
