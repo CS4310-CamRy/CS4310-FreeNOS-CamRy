@@ -40,6 +40,7 @@ typedef enum ProcessOperation
     KillPID,
     GetPID,
     GetParent,
+    GetPriority, //add GetPriority to match GetParent, we are led here from the ProcessList imports
     WatchIRQ,
     EnableIRQ,
     DisableIRQ,
@@ -67,6 +68,9 @@ typedef struct ProcessInfo
 
     /** Parent process id. */
     ProcessID parent;
+    
+    /** Priority level */
+    Process::Priority level;
 
     /** Defines the current state of the Process. */
     Process::State state;
