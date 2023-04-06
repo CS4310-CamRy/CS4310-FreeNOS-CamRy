@@ -113,7 +113,9 @@ class ProcessManager
      * @return Result code
      */
     Result wait(Process *proc);
-
+    
+    Result setPriority(int level, Process *proc);
+    
     /**
      * Remove given Process from the Scheduler
      *

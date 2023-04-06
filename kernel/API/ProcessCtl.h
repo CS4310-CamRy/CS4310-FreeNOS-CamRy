@@ -41,6 +41,7 @@ typedef enum ProcessOperation
     GetPID,
     GetParent,
     GetPriority, //add GetPriority to match GetParent, we are led here from the ProcessList imports
+    RenicePID,
     WatchIRQ,
     EnableIRQ,
     DisableIRQ,

@@ -4,11 +4,17 @@
 #include <POSIXApplication.h>
 
 
-class Renice : public POSIXApplication
-{
-  public:
-    Renice(int argc, char **argv);
-    virtual Result exec();
+class Renice : public POSIXApplication {
+    public:
+
+       
+        Renice(int argc, char **argv);
+
+       
+        virtual ~Renice();
+
+        
+        virtual Result exec();
 };
 
 

@@ -7,38 +7,42 @@
 #include "Renice.h"
 #include "sys/renice.h"
 
-Renice::Renice(int argc, char **argv): POSIXApplication(argc, argv)
+Renice::Renice(int argc, char **argv)
+	: POSIXApplication(argc, argv)
 {
     parser().setDescription("Changes priority level");
     parser().registerFlag('n', "level", "change priority level");
-    parser().registerPositional("PID", "level");
     parser().registerPositional("LEVEL", "desired priority level");
+    parser().registerPositional("PID", "level");
+    
 }
 
-//exec() function
+Renice::~Renice()
+{
+}
+
 Renice::Result Renice::exec()
 {
     if(arguments().get("level")) {
-        ProcessID pid = (atoi(arguments().get("PID")));
+   	ProcessID pid = (atoi(arguments().get("PID")));
         int level = (atoi(arguments().get("LEVEL")));
-
-        ProcessClient::Info info;
-        const ProcessClient::Result result = process.processInfo(pid, info);
-
-        if(level < 5 || level > 1) {
-            if(renicepid(pid, level, 0, 0) == -1) {
+        if(level <= 5 && level >= 1) {
+            if(renicepid(level, pid, 0, 0) == -1) {
                 ERROR("invalid PID`" << arguments().get("PID") << "'");
                 return InvalidArgument;
             }
+            
             else {
                 return Success;
             }
         }
         else {
-            ERROR("Invalid priority " << pid)
+            ERROR("Invalid priority " << level)
             return InvalidArgument;
         }
-    }
+       }
+    
 
     return Success;
 }
+

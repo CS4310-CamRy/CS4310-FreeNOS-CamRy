@@ -157,7 +157,7 @@ class Process
     bool operator == (Process *proc);
     
     Priority getPriority() const; //following State and getState() structure
-
+    Result setPriority(int level);
   protected:
 
     /**
