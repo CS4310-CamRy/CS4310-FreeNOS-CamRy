@@ -227,7 +227,7 @@ ProcessManager::Result ProcessManager::wait(Process *proc)
     return dequeueProcess(m_current);
 }
 
-ProcessManager::Result ProcessManager::setPriority(int level, Process *proc)
+ProcessManager::Result ProcessManager::alterPriority(int level, Process *proc)
 {
     if(proc->getState() == Process::Ready) {
         if(m_scheduler->dequeue(proc, true) != Scheduler::Success) {
