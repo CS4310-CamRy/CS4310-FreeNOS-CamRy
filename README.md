@@ -1,4 +1,4 @@
-Camille Nguyen
+Camille Nguyen - Worked on renice files/changing priorities
 
 Ryan Austin Mangilin
 -Display process level, implemmented priority queue
