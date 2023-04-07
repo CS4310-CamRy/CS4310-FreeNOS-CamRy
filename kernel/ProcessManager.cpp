@@ -229,13 +229,22 @@ ProcessManager::Result ProcessManager::wait(Process *proc)
 
 ProcessManager::Result ProcessManager::setPriority(int level, Process *proc)
 {
-    if(proc->getState() == Process::Ready){
-    	m_scheduler->dequeue(proc, true);
-    	proc->setPriority(level);
-    	m_scheduler->enqueue(proc, false);
-    }
-    else {
-    	proc->setPriority(level);
+    if(proc->getState() == Process::Ready) {
+        if(m_scheduler->dequeue(proc, true) != Scheduler::Success) {
+            FATAL("did not dequeue the PID " << proc->getID());
+        }
+
+        if(proc->setPriority(level) != Process::Success) {
+            FATAL("did not set priority for PID" << proc->getID());
+        }
+
+        if(m_scheduler->enqueue(proc, false) != Scheduler::Success) {
+            FATAL("did not enqueue at the PID" << proc->getID());
+        }
+    } else {
+        if(proc->setPriority(level) != Process::Success) {
+            FATAL("did not set priority for PID" << proc->getID());
+        }
     }
     return Success;
 }
